@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Redux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.min.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <h4>Redux</h4>
+    </div>
+    <div>
+        <p>El numero es:
+            <span id="numero" style="font-weight: 900"></span>
+        </p>
+        <br>
+        <button onclick="aumentar()">Aumentar</button>
+        <br>
+        <button onclick="disminuir()">Disminuir</button>
+    </div>
+    <script type="text/javascript">
+        console.log("--------FUNCIONANDO DESDE JS--------")
+        // State: un objecto JS representa un objeto estado
+        let state = {
+            numero: 0
+        }
+
+        var store = Redux.createStore(reducer, state);
+
+        // Reducer: Una funcion JS que regresa un state resive un state un action enviada desde el store
+
+        function reducer(state, action) {
+            console.log("--------SE EJECUTA EL REDUCER--------")
+            console.log("State inicial: ", state)
+            console.log("Accion: ", action)
+            // Assing: Permite la copia de un Objeto, Object.assign(donde se va a copiar, la fuente)
+            let nuevoState = Object.assign({}, state)
+            switch (action.type) {
+                case 'AUM':
+                    nuevoState.numero = state.numero + 1;
+                    console.log("NUEVO STATE AUM: ", nuevoState)
+                    return nuevoState
+                case 'DIS':
+                    nuevoState.numero = state.numero - 1;
+                    console.log("NUEVO STATE DIS: ", nuevoState)
+                    return nuevoState
+
+                default:
+                    return state;
+            }
+
+        }
+        // Action: Es un objecto de JS y necesita tener un key
+        let actionAumentar = {
+            type: 'AUM'
+        }
+        let actionDisminuir = {
+            type: 'DIS'
+        }
+        // Dispach: Ejecuta la logica de nuestras acciones (Action)
+        // store.dispatch(actionAumentar);
+
+        // Funciones que ejecutan el REDUX
+        var aumentar = () => {
+            store.dispatch(actionAumentar);
+        }
+        var disminuir = () => {
+            store.dispatch(actionDisminuir);
+        }
+
+        // getState: obtiene los valroes de nuestro STORE
+        var actulizarNumero = () => {
+            // Mostrar REDUX
+            var numeroSpan = document.getElementById('numero')
+            numero.innerHTML = store.getState().numero;
+        }
+        
+        //Subcribir nuestro estado: cada vez que se modifique el state esta funcion se ejecutara automaticamente
+        store.subscribe(actulizarNumero)
+
+
+    </script>
+</body>
+
+</html>
